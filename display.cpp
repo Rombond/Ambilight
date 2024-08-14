@@ -9,7 +9,7 @@ int main() {
     int w = 3840;
 
     // Lecture du fichier YUV420p
-    cv::Mat yuv(w, h * 1.5, CV_8U);
+    cv::Mat yuv(h * 1.5, w, CV_8UC1);
     FILE* file = fopen("output.yuv", "rb");
     if (file == nullptr) {
         std::cerr << "Impossible d'ouvrir le fichier output.yuv" << std::endl;
@@ -19,8 +19,7 @@ int main() {
     fclose(file);
 
     // Conversion de l'image YUV dans le format BGR NV12 pour correspondance avec OpenCV
-    cv::Mat bgr(h, w, CV_8UC4);
-    cv::Mat yuvReshape = yuv.reshape(int(h*1.5), w);
+    cv::Mat bgr(w, h, CV_8UC4);
     cv::cvtColor(yuv, bgr, cv::COLOR_YUV2BGRA_NV12);
 
     // Ecrire l'image dans le framebuffer
